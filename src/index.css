@@ -1,0 +1,17 @@
+.success {
+    background-color: darkgray;
+    padding: 10px;
+    border: 2px solid green;
+    border-radius: 5px;
+    margin: 10px 0;
+    color: darkgreen;
+}
+   
+.failed {
+    background-color: darkgray;
+    padding: 10px;
+    border: 2px solid red;
+    border-radius: 5px;
+    margin: 10px 0;
+    color: darkred;    
+}
