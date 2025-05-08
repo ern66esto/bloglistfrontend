@@ -1,31 +1,38 @@
-import CreateBlogForm from './CreateBlogForm';
-import Togglable from './Togglable';
+import CreateBlogForm from './CreateBlogForm'
+import Togglable from './Togglable'
+import BlogDetails from './BlogDetails'
+
 const BlogForm = (props) =>
 {
-    const {blogs, handleLogout, addBlog, title, handleTitleChange, author, handleAuthorChange, url, handleUrlChange} = props;
-        return (
-            <div>
-                <div>
-                    {
-                        blogs.length > 0 &&  
-                            <div>{blogs[0].user.name} logged in. <button onClick={() => handleLogout(blogs[0].user) }>logout</button>  </div>
-                    }
-                </div>
-                <br/>
-                <div>
-                    <Togglable buttonLabel='create new blog'>
-                      <CreateBlogForm addBlog={addBlog} title={title} handleTitleChange={handleTitleChange} author={author} handleAuthorChange={handleAuthorChange} url={url} handleUrlChange={handleUrlChange}/>
-                    </Togglable>
-                </div>
-                <ul>
-                    {blogs.map(b => 
-                        (
-                            <li key={b.id}>{b.title}</li>
-                        )
-                    )}
-                </ul>
-            </div>
-        );
-};
+  const { blogs, handleLogout, addBlog, createBlogFormRef, handleLikes, handleDelete, user } = props
+  blogs.sort(function(a, b) {
+    if (a.likes < b.likes ) {
+      return 1
+    }
+    if (a.likes > b.likes) {
+      return -1
+    }
 
-export default BlogForm;
+    return 0
+  })
+  return (
+    <div>
+      <div>
+        <div>{user.name} logged in. <button onClick={() => handleLogout() }>logout</button>  </div>
+      </div>
+      <br/>
+      <div>
+        <Togglable buttonLabel='new blog' ref={createBlogFormRef}>
+          <CreateBlogForm createBlog={addBlog} />
+        </Togglable>
+      </div>
+      <div>
+        {blogs.map(b =>
+          (<BlogDetails key={b.id} blog={b} handleLikes={handleLikes} handleDelete={handleDelete}/>)
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default BlogForm
